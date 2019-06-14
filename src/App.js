@@ -1,6 +1,7 @@
 import React from "react";
 import Box from "./Box";
 import "./App.css";
+import chainFinder from "./chainFinder";
 
 export default class App extends React.Component {
   constructor() {
@@ -9,16 +10,18 @@ export default class App extends React.Component {
     let darkBackground = true;
 
     for (let i = 0; i < 64; i++) {
-      let boxObj = { pieceColor: null, position: i, isBorder: false };
+      let boxObj = { pieceColor: null, position: i, border: [] };
 
       // top and bottom board borders
-      if (i - 8 < 0 || i + 8 > 63) {
-        boxObj.isBorder = true;
+      if (i - 8 < 0) {
+        boxObj.border.push("top");
       }
-
+      if (i + 8 > 63) {
+        boxObj.border.push("bottom");
+      }
       // right side borders
       if ((i + 1) % 8 === 0) {
-        boxObj.isBorder = true;
+        boxObj.border.push("right");
       }
 
       // every new row of 8x8 board needs to start with a different background
@@ -30,7 +33,7 @@ export default class App extends React.Component {
         // change color for next box
         darkBackground = !darkBackground;
         // left side borders
-        boxObj.isBorder = true;
+        boxObj.border.push("left");
       } else {
         boxObj.darkBackground = darkBackground;
         darkBackground = !darkBackground;
@@ -39,21 +42,23 @@ export default class App extends React.Component {
       initialBoxes.push(boxObj);
     }
     this.state = { boxes: initialBoxes, turn: "white" };
-    this.handleBoxClick = this.handleBoxClick.bind(this)
+    this.handleBoxClick = this.handleBoxClick.bind(this);
   }
 
   handleBoxClick(position) {
-    let boxes = this.state.boxes;
-    boxes[position].pieceColor = this.state.turn;
+    let boxes = chainFinder(this.state.boxes, this.state.turn, position);
+    // return
     let turn = this.state.turn === "white" ? "black" : "white";
-    this.setState({ boxes, turn });
+    if (boxes) {
+      this.setState({ boxes, turn });
+    }
   }
 
   render() {
     return (
       <div className="App">
         <h1>Othello</h1>
-        <h2>Turn: {(this.state.turn).toUpperCase()}</h2>
+        <h2>Turn: {this.state.turn.toUpperCase()}</h2>
         <div className="board">
           {this.state.boxes.map((box, index) => {
             return <Box handleBoxClick={this.handleBoxClick} key={index} {...box} />;
