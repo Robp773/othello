@@ -1,0 +1,49 @@
+.board {
+  width: 50vw;
+  height: 50vw;
+  background: whitesmoke;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.box {
+  width: 12.5%;
+  height: 12.5%;
+  display: inline-block;
+  position: relative;
+  cursor: pointer;
+}
+.box--even {
+  background: darkgreen;
+}
+
+.box--odd {
+  background: forestgreen;
+}
+
+.piece-white,
+.piece-black,
+.piece-empty {
+  border-radius: 100px;
+  width: 75%;
+  height: 75%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.piece-empty {
+  background: transparent;
+  transition: all 0.25s;
+}
+
+.piece-empty:hover {
+  background: lightgreen;
+}
+
+.hidden-position {
+  opacity: 0;
+}
