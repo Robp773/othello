@@ -34,6 +34,13 @@
   left: 50%;
   transform: translate(-50%, -50%);
 }
+.piece-white {
+  background: white;
+}
+
+.piece-black {
+  background: black;
+}
 
 .piece-empty {
   background: transparent;
@@ -48,6 +55,6 @@
   opacity: 0;
 }
 
-.border{
-    /* background: red; */
+.border {
+  /* background: red; */
 }

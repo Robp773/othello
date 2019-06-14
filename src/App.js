@@ -38,16 +38,25 @@ export default class App extends React.Component {
 
       initialBoxes.push(boxObj);
     }
-    this.state = { boxes: initialBoxes };
+    this.state = { boxes: initialBoxes, turn: "white" };
+    this.handleBoxClick = this.handleBoxClick.bind(this)
+  }
+
+  handleBoxClick(position) {
+    let boxes = this.state.boxes;
+    boxes[position].pieceColor = this.state.turn;
+    let turn = this.state.turn === "white" ? "black" : "white";
+    this.setState({ boxes, turn });
   }
 
   render() {
     return (
       <div className="App">
         <h1>Othello</h1>
+        <h2>Turn: {(this.state.turn).toUpperCase()}</h2>
         <div className="board">
           {this.state.boxes.map((box, index) => {
-            return <Box key={index} {...box} />;
+            return <Box handleBoxClick={this.handleBoxClick} key={index} {...box} />;
           })}
         </div>
       </div>
