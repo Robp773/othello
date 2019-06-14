@@ -9,7 +9,17 @@ export default class App extends React.Component {
     let darkBackground = true;
 
     for (let i = 0; i < 64; i++) {
-      let boxObj = { pieceColor: null, position: i };
+      let boxObj = { pieceColor: null, position: i, isBorder: false };
+
+      // top and bottom board borders
+      if (i - 8 < 0 || i + 8 > 63) {
+        boxObj.isBorder = true;
+      }
+
+      // right side borders
+      if ((i + 1) % 8 === 0) {
+        boxObj.isBorder = true;
+      }
 
       // every new row of 8x8 board needs to start with a different background
       // color than rows above and below
@@ -19,6 +29,8 @@ export default class App extends React.Component {
         boxObj.darkBackground = darkBackground;
         // change color for next box
         darkBackground = !darkBackground;
+        // left side borders
+        boxObj.isBorder = true;
       } else {
         boxObj.darkBackground = darkBackground;
         darkBackground = !darkBackground;
