@@ -50,12 +50,20 @@ export default class App extends React.Component {
   }
 
   handleBoxClick(position) {
-    let boxes = chainFinder(this.state.boxes, this.state.turn, position);
-    // return
-    let turn = this.state.turn === "white" ? "black" : "white";
-    if (boxes) {
-      this.setState({ boxes, turn });
+
+    if (this.state.boxes[position].pieceColor) {
+      alert('piece already placed')
+      return
     }
+
+    this.state.boxes[position].pieceColor = this.state.turn
+    let boxes = this.state.boxes
+
+    chainFinder(this.state.boxes, this.state.turn).then((boxes) => {
+
+      this.setState({ boxes, turn: this.state.turn === "white" ? "black" : "white" });
+    })
+
   }
 
   render() {
